@@ -201,7 +201,7 @@ def save_model(model_id):
 @app.route('/download_str/<int:model_id>', methods=['GET'])
 def download_str(model_id):
     print("Enter in the function")
-    file="static/models/model_"+str(model_id)+"/model_"+str(model_id)+".json"
+    file="models/model_"+str(model_id)+"/model_"+str(model_id)+".json"
     return send_from_directory('static', file)
 
 @app.route('/<path:path>')

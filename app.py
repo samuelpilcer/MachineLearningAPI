@@ -36,7 +36,12 @@ import pandas as pd
 # curl -i -H "Content-Type: application/json" -X POST -d '{"description":"Test", "training_file":"training/training_mnist_0783-784.csv", "training_columns":784, "output_column":785}' http://localhost:5000/train/3
 # curl -i -H "Content-Type: application/json" -X POST -d '{"saving_file":"files/test_mnist"}' http://localhost:5000/save/3
 
-
+def to_vect(value, categories):
+    vector=[]
+    for i in range(categories):
+        vector.append(0)
+    vector[value]=1
+    return vector
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -132,6 +137,10 @@ def train_model(model_id):
     if len(model) == 0:
         abort(404)
     model=model[0]
+    y_initial=np.array(training_data.loc[:,str(request.json['training_columns'])])
+    y=[]
+    for i in range(training_data.index.size):
+        y.append(to_vect(y_initial[i],model.layers[-1].output_shape))
     columns=[]
     for i in range(request.json['training_columns']):
         columns.append(str(i))

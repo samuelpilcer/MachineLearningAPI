@@ -127,7 +127,7 @@ def create_model():
 
 @app.route('/train/<int:model_id>', methods=['POST'])
 def train_model(model_id):
-    if not request.json or not 'training_file' in request.json or not 'training_columns' in request.json:
+    if not request.json or not 'training_file' in request.json:
         abort(400)
     if 'epochs' in request.json:
         epochs=request.json['epochs']

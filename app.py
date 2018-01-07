@@ -144,6 +144,15 @@ def upload_training(model_id):
     file.save("static/training/training_"+str(model_id)+".csv")
     return "file successfully saved"
 
+@app.route('/get-structure/<int:model_id>')
+def download_model_structure(path):
+    json_model=model.to_json()
+    return json_model
+
+@app.route('/get-weights/<int:model_id>')
+def download_model_weights(path):
+    return send_from_directory('static', path)
+
 @app.route('/save/<int:model_id>', methods=['POST'])
 def save_model(model_id):
     if not request.json or not 'saving_file' in request.json:

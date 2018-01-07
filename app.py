@@ -133,7 +133,7 @@ def train_model(model_id):
         epochs=request.json['epochs']
     else:
         epochs=1
-    training_data=pd.read_csv(request.json['training_file'])
+    training_data=pd.read_csv("static/training/training_"+str(model_id)+".csv")
     training_data.columns=list(range(len(training_data.columns)))
     model=[model for model in models if model['id'] == model_id]
     if len(model) == 0:

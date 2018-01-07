@@ -147,6 +147,7 @@ def upload_training(model_id):
 @app.route('/get-structure/<int:model_id>')
 def download_model_structure(model_id):
     model=[model for model in models if model['id'] == model_id]
+    print(model)
     if len(model) == 0:
         abort(404)
     model=model[0]

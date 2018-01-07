@@ -145,7 +145,12 @@ def upload_training(model_id):
     return "file successfully saved"
 
 @app.route('/get-structure/<int:model_id>')
-def download_model_structure(path):
+def download_model_structure(model_id):
+    training_data=pd.read_csv(request.json['training_file'])
+    model=[model for model in models if model['id'] == model_id]
+    if len(model) == 0:
+        abort(404)
+    model=model[0]
     json_model=model.to_json()
     return json_model
 

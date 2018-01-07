@@ -144,7 +144,7 @@ def upload_training(model_id):
     file.save("static/training/training_"+str(model_id)+".csv")
     return "file successfully saved"
 
-@app.route('/get-structure/<int:model_id>')
+@app.route('/get-structure/<int:model_id>', methods=['GET'])
 def download_model_structure(model_id):
     model=[model for model in models if model['id'] == model_id]
     print(model)

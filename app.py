@@ -193,7 +193,7 @@ def upload_file():
         return "No file found"
     file = request.files['file']
     file.save("static/"+address)
-    return "file successfully saved"
+    return "file successfully saved at static/"+address
 
 
 if __name__ == '__main__':

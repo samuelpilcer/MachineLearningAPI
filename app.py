@@ -99,15 +99,16 @@ def not_found(error):
 
 @app.route('/create', methods=['POST'])
 def create_model():
-    if not request.json or not 'layers' in request.json or not 'inputs' in request.json:
+    if not request.json or not 'layers' in request.json or not 'inputs' in request.json or not 'outputs' in request.json:
         abort(400)
     model_keras = Sequential()
     layers=request.json['layers']
     inputs=request.json['inputs']
+    outputs=request.json['outputs']
     model_keras.add(Dense(layers[0], input_dim=inputs, activation='relu'))
     for i in layers:
         model_keras.add(Dense(i, activation='relu'))
-    model_keras.add(Dense(1, activation='sigmoid'))
+    model_keras.add(Dense(outputs, activation='sigmoid'))
     model_keras.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     model = {
         'id': models[-1]['id'] + 1,

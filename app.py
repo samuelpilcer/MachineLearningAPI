@@ -120,8 +120,12 @@ def create_model():
 
 @app.route('/train/<int:model_id>', methods=['POST'])
 def train_model(model_id):
-    if not request.json or not 'training_file' in request.json or not 'training_columns' in request.json or not 'output_column' in request.json:
+    if not request.json or not 'training_file' in request.json or not 'training_columns' in request.json:
         abort(400)
+    if 'epochs' in request.json:
+        epochs=request.json['epochs']
+    else:
+        epochs=1
     training_data=pd.read_csv(request.json['training_file'])
     model=[model for model in models if model['id'] == model_id]
     if len(model) == 0:
@@ -130,7 +134,7 @@ def train_model(model_id):
     columns=[]
     for i in range(request.json['training_columns']):
         columns.append(str(i))
-    model['model'].fit(np.array(training_data.loc[:,columns]), np.array(training_data.loc[:,str(request.json['output_column']-1)]), epochs=1, batch_size=10)
+    model['model'].fit(np.array(training_data.loc[:,columns]), np.array(training_data.loc[:,str(request.json['training_columns'])]), epochs=epochs, batch_size=10)
     model['trained']=True
     return jsonify({'id':models[-1]['id']})
 

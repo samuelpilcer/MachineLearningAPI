@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask import request
 from flask import make_response
 from flask import abort
@@ -38,7 +38,7 @@ import pandas as pd
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 model1 = Sequential()
 model1.add(Dense(12, input_dim=8, activation='relu'))
@@ -149,6 +149,19 @@ def save_model(model_id):
     model.save_weights(saving_file+".h5")
     return jsonify({'id':model_id})
 
+@app.route('/<path:path>')
+def send_html(path):
+    return send_from_directory('static', path)
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    print(request.files)
+    # checking if the file is present or not.
+    if 'file' not in request.files:
+        return "No file found"
+    file = request.files['file']
+    file.save("static/test.jpg")
+    return "file successfully saved"
 
 
 if __name__ == '__main__':

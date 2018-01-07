@@ -178,7 +178,7 @@ def download_model_structure(model_id):
 def download_model_weights(path):
     return send_from_directory('static', path)
 
-@app.route('/save/<int:model_id>', methods=['POST'])
+@app.route('/save/<int:model_id>', methods=['GET'])
 def save_model(model_id):
     saving_file="static/models/model_"+str(model_id)
     print(saving_file)

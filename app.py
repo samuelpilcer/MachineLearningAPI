@@ -89,7 +89,7 @@ def get_models():
 
 @app.route('/<int:model_id>', methods=['GET'])
 def get_model(model_id):
-    if not request.json or not 'token' in request.json or not request.json["token"]==PASSWORD_API:
+    if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
          abort(404)
     model = [model for model in models if model['id'] == model_id]
     if len(model) == 0:

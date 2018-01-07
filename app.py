@@ -151,7 +151,9 @@ def download_model_structure(model_id):
     if len(model) == 0:
         abort(404)
     model=model[0]
+    print("Model found.")
     json_model=model.to_json()
+    print("Model serialized.")
     return json_model
 
 @app.route('/get-weights/<int:model_id>')

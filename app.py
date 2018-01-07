@@ -181,6 +181,11 @@ def download_model_weights(path):
 @app.route('/save/<int:model_id>', methods=['GET'])
 def save_model(model_id):
     saving_file="static/models/model_"+str(model_id)+"/model_"+str(model_id)
+    try:
+        os.stat("static/models/model_"+str(model_id))
+    except:
+        os.mkdir("static/models/model_"+str(model_id))    
+
     print(saving_file)
     model=[model for model in models if model['id'] == model_id]
     if len(model) == 0:
@@ -195,7 +200,7 @@ def save_model(model_id):
 @app.route('/download_str/<int:model_id>', methods=['GET'])
 def download_str(model_id):
     file="static/models/model_"+str(model_id)+"/model_"+str(model_id)+".json"
-    return send_from_directory('static', path)
+    return send_from_directory('static', file)
 
 @app.route('/<path:path>')
 def send_html(path):

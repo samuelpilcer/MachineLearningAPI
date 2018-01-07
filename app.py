@@ -135,9 +135,8 @@ def train_model(model_id):
     return jsonify({'id':models[-1]['id']})
 
 
-
 @app.route('/uploadtraining/<int:model_id>', methods=['POST'])
-def upload_training(model_id):
+def uploadtraining(model_id):
     print(request.files)
     # checking if the file is present or not.
     if 'file' not in request.files:

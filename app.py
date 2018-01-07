@@ -183,10 +183,10 @@ def send_html(path):
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    if not request.json or not 'address' in request.json:
+    if not request.form or not 'address' in request.form:
         address="test.csv"
     else:
-        address=request.json["address"]
+        address=request.form["address"]
     print(request.files)
     # checking if the file is present or not.
     if 'file' not in request.files:

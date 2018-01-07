@@ -76,6 +76,8 @@ models = [
 
 @app.route('/', methods=['GET'])
 def get_models():
+    if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
+         abort(404)
     models_to_display=[]
     for i in models:
         models_to_display.append(
@@ -108,6 +110,8 @@ def not_found(error):
 
 @app.route('/create', methods=['POST'])
 def create_model():
+    if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
+         abort(404)
     if not request.json or not 'layers' in request.json or not 'inputs' in request.json or not 'outputs' in request.json:
         abort(400)
     model_keras = Sequential()
@@ -130,6 +134,8 @@ def create_model():
 
 @app.route('/train/<int:model_id>', methods=['POST'])
 def train_model(model_id):
+    if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
+         abort(404)
     if not request.json or not 'training_file' in request.json:
         abort(400)
     if 'epochs' in request.json:
@@ -156,6 +162,8 @@ def train_model(model_id):
 
 @app.route('/uploadtraining/<int:model_id>', methods=['POST'])
 def uploadtraining(model_id):
+    if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
+         abort(404)
     print(request.files)
     # checking if the file is present or not.
     if 'file' not in request.files:
@@ -164,25 +172,16 @@ def uploadtraining(model_id):
     file.save("static/training/training_"+str(model_id)+".csv")
     return "file successfully saved"
 
-@app.route('/get-structure/<int:model_id>', methods=['GET'])
-def download_model_structure(model_id):
-    print("OK")
-    model=[model for model in models if model['id'] == model_id]
-    print(model)
-    if len(model) == 0:
-        abort(404)
-    model=model[0]
-    print("Model found.")
-    json_model=model.to_json()
-    print("Model serialized.")
-    return json_model
-
 @app.route('/get-weights/<int:model_id>')
 def download_model_weights(path):
+    if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
+         abort(404)
     return send_from_directory('static', path)
 
 @app.route('/save/<int:model_id>', methods=['GET'])
 def save_model(model_id):
+    if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
+         abort(404)
     saving_file="static/models/model_"+str(model_id)+"/model_"+str(model_id)
     try:
         os.stat("static/models/model_"+str(model_id))
@@ -202,11 +201,15 @@ def save_model(model_id):
 
 @app.route('/download_str/<int:model_id>', methods=['GET'])
 def download_str(model_id):
+    if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
+         abort(404)
     file="models/model_"+str(model_id)+"/model_"+str(model_id)+".json"
     return send_from_directory('static', file)
 
 @app.route('/download_weights/<int:model_id>', methods=['GET'])
 def download_weights(model_id):
+    if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
+         abort(404)
     file="models/model_"+str(model_id)+"/model_"+str(model_id)+".h5"
     return send_from_directory('static', file)
 

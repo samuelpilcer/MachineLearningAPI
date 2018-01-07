@@ -1,0 +1,3 @@
+curl -i -H "Content-Type: application/json" -X POST -d '{"description":"Test", "inputs":784, "layers":[23,32,44]}' http://localhost:80/create
+curl -i -H "Content-Type: application/json" -X POST -d '{"description":"Test", "training_file":"training/training_mnist_0783-784.csv", "training_columns":784, "output_column":785}' http://localhost:80/train/2
+curl -i -H "Content-Type: application/json" -X POST -d '{"saving_file":"files/test_mnist"}' http://localhost:80/save/3

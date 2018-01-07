@@ -134,6 +134,16 @@ def train_model(model_id):
     model['trained']=True
     return jsonify({'id':models[-1]['id']})
 
+@app.route('/upload-training/<int:model_id>', methods=['POST'])
+def upload_training(model_id):
+    print(request.files)
+    # checking if the file is present or not.
+    if 'file' not in request.files:
+        return "No file found"
+    file = request.files['file']
+    file.save("static/training/training_"+str(model_id)+".csv")
+    return "file successfully saved"
+
 @app.route('/save/<int:model_id>', methods=['POST'])
 def save_model(model_id):
     if not request.json or not 'saving_file' in request.json:

@@ -204,7 +204,7 @@ def download_str(model_id):
     return send_from_directory('static', file)
 
 @app.route('/download_weights/<int:model_id>', methods=['GET'])
-def download_str(model_id):
+def download_weights(model_id):
     file="models/model_"+str(model_id)+"/model_"+str(model_id)+".h5"
     return send_from_directory('static', file)
 

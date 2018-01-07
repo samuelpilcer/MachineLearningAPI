@@ -183,12 +183,16 @@ def send_html(path):
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
+    if not request.form or not 'address' in request.form:
+        address="test.csv"
+    else:
+        address=request.form["address"]
     print(request.files)
     # checking if the file is present or not.
     if 'file' not in request.files:
         return "No file found"
     file = request.files['file']
-    file.save("static/test.jpg")
+    file.save("static/"+address)
     return "file successfully saved"
 
 

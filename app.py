@@ -134,19 +134,18 @@ def train_model(model_id):
     else:
         epochs=1
     training_data=pd.read_csv(request.json['training_file'])
+    training_data.columns=list(range(len(training_data.columns)))
     model=[model for model in models if model['id'] == model_id]
     if len(model) == 0:
         abort(404)
     model=model[0]
-    y_initial=np.array(training_data.loc[:,str(request.json['training_columns'])])
+    y_initial=np.array(training_data.loc[:,len(training_data.columns)-1])
     y=[]
     outputs=model['model'].layers[-1].output_shape[1]
     for i in range(training_data.index.size):
         y.append(to_vect(y_initial[i],outputs))
     y=np.array(y)
-    columns=[]
-    for i in range(request.json['training_columns']):
-        columns.append(str(i))
+    columns=list(range(len(training_data.columns)-1))
     model['model'].fit(np.array(training_data.loc[:,columns]), y, epochs=epochs, batch_size=10)
     model['trained']=True
     return jsonify({'id':models[-1]['id']})
@@ -207,25 +206,6 @@ def download_str(model_id):
 def download_weights(model_id):
     file="models/model_"+str(model_id)+"/model_"+str(model_id)+".h5"
     return send_from_directory('static', file)
-
-@app.route('/<path:path>')
-def send_html(path):
-    return send_from_directory('static', path)
-
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    if not request.form or not 'address' in request.form:
-        address="test.csv"
-    else:
-        address=request.form["address"]
-    print(request.files)
-    # checking if the file is present or not.
-    if 'file' not in request.files:
-        return "No file found"
-    file = request.files['file']
-    file.save("static/"+address)
-    return "file successfully saved at static/"+address
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)

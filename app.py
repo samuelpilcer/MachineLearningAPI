@@ -139,6 +139,7 @@ def train_model(model_id):
     model=model[0]
     y_initial=np.array(training_data.loc[:,str(request.json['training_columns'])])
     y=[]
+    print(model['model'].layers[-1].output_shape)
     for i in range(training_data.index.size):
         y.append(to_vect(y_initial[i],model['model'].layers[-1].output_shape))
     columns=[]

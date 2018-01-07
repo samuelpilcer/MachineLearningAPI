@@ -180,17 +180,19 @@ def download_model_weights(path):
 
 @app.route('/save/<int:model_id>', methods=['POST'])
 def save_model(model_id):
-    if not request.json or not 'saving_file' in request.json:
-        abort(400)
-    saving_file=request.json['saving_file']
+    saving_file="static/models/model_"+str(model_id)
+    print(saving_file)
     model=[model for model in models if model['id'] == model_id]
     if len(model) == 0:
         abort(404)
+    print("Model loaded.")
     model=model[0]["model"]
     model_json = model.to_json()
+    print("Model serialized.")
     with open(saving_file+".json", "w") as json_file:
         json_file.write(model_json)
     model.save_weights(saving_file+".h5")
+    print("Weights serialized.")
     return jsonify({'id':model_id})
 
 @app.route('/<path:path>')

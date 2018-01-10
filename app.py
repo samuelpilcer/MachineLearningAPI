@@ -61,13 +61,13 @@ model2.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'
 
 models = [
     {
-        'id': 1,
+        'id': 0,
         'model': model1,
         'description': u'Test model number 1. 3 dense layers.', 
         'trained': False
     },
     {
-        'id': 2,
+        'id': 1,
         'model': model2,
         'description': u'Test model number 2. 2 dense layers.', 
         'trained': False

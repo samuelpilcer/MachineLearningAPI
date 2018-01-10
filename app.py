@@ -192,7 +192,8 @@ def process_file(model_id):
     res=[]
     for i in range(file.index.size):
         res.append(list(file.iloc[i,:])+[models[i].model.evaluate(file.iloc[i,:])])
-    return send_from_directory('static', file)
+    pd.DataFrame(res).to_csv("static/processed/file_"+str(model_id)+".csv")
+    return send_from_directory('static', "processed/file_"+str(model_id)+".csv")
 
 @app.route('/download_file_processed/<int:model_id>', methods=['GET'])
 def download_file_processed(model_id):

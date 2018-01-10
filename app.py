@@ -193,7 +193,7 @@ def process_file(model_id):
     for i in range(file.index.size):
         res.append(list(file.iloc[i,:])+[models[model_id-1]["model"].predict(np.array([file.iloc[i,:]]))])
     pd.DataFrame(res).to_csv("static/processed/file_"+str(model_id)+".csv")
-    return send_from_directory('static', "processed/file_"+str(model_id)+".csv")
+    return "file successfully processed"
 
 @app.route('/download_file_processed/<int:model_id>', methods=['GET'])
 def download_file_processed(model_id):

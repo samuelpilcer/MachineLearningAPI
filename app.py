@@ -61,13 +61,13 @@ model2.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'
 
 models = [
     {
-        'id': 0,
+        'id': 1,
         'model': model1,
         'description': u'Test model number 1. 3 dense layers.', 
         'trained': False
     },
     {
-        'id': 1,
+        'id': 2,
         'model': model2,
         'description': u'Test model number 2. 2 dense layers.', 
         'trained': False
@@ -191,10 +191,7 @@ def process_file(model_id):
     file=pd.read_csv("static/to_process/file_"+str(model_id)+".csv")
     res=[]
     for i in range(file.index.size):
-        print(i)
-        print(model_id)
-        print(models[model_id])
-        res.append(list(file.iloc[i,:])+[models[model_id]["model"].predict(file.iloc[i,:])])
+        res.append(list(file.iloc[i,:])+[models[model_id-1]["model"].predict(file.iloc[i,:])])
     pd.DataFrame(res).to_csv("static/processed/file_"+str(model_id)+".csv")
     return send_from_directory('static', "processed/file_"+str(model_id)+".csv")
 

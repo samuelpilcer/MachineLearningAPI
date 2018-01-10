@@ -191,7 +191,7 @@ def process_file(model_id):
     file=pd.read_csv("static/to_process/file_"+str(model_id)+".csv")
     res=[]
     for i in range(file.index.size):
-        res.append(list(file.iloc[i,:])+[models[model_id-1]["model"].predict(np.array([file.iloc[i,:]]))])
+        res.append(list(file.iloc[i,:])+models[model_id-1]["model"].predict(np.array([file.iloc[i,:]])))
     pd.DataFrame(res).to_csv("static/processed/file_"+str(model_id)+".csv", index=False)
     return "file successfully processed"
 

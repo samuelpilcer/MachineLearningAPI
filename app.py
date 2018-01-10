@@ -192,6 +192,8 @@ def process_file(model_id):
     res=[]
     for i in range(file.index.size):
         print(i)
+        print(model_id)
+        print(models[model_id])
         res.append(list(file.iloc[i,:])+[models[model_id]["model"].predict(file.iloc[i,:])])
     pd.DataFrame(res).to_csv("static/processed/file_"+str(model_id)+".csv")
     return send_from_directory('static', "processed/file_"+str(model_id)+".csv")

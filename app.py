@@ -185,7 +185,7 @@ def uploadfile(model_id):
     return "file successfully saved"
 
 @app.route('/process_file/<int:model_id>', methods=['GET'])
-def download_file_processed(model_id):
+def process_file(model_id):
     if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
          abort(404)
     file=pd.read_csv("static/to_process/file_"+str(model_id)+".csv")

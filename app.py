@@ -172,11 +172,34 @@ def uploadtraining(model_id):
     file.save("static/training/training_"+str(model_id)+".csv")
     return "file successfully saved"
 
-@app.route('/get-weights/<int:model_id>')
-def download_model_weights(path):
+@app.route('/uploadfile/<int:model_id>', methods=['POST'])
+def uploadfile(model_id):
     if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
          abort(404)
-    return send_from_directory('static', path)
+    print(request.files)
+    # checking if the file is present or not.
+    if 'file' not in request.files:
+        return "No file found"
+    file = request.files['file']
+    file.save("static/to_process/file_"+str(model_id)+".csv")
+    return "file successfully saved"
+
+@app.route('/process_file/<int:model_id>', methods=['GET'])
+def download_file_processed(model_id):
+    if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
+         abort(404)
+    file=pd.read_csv("static/to_process/file_"+str(model_id)+".csv")
+    res=[]
+    for i in range(file.index.size):
+        res.append(list(file.iloc[i,:])+[models[i].model.evaluate(file.iloc[i,:])])
+    return send_from_directory('static', file)
+
+@app.route('/download_file_processed/<int:model_id>', methods=['GET'])
+def download_file_processed(model_id):
+    if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
+         abort(404)
+    file="processed/file_"+str(model_id)+".csv"
+    return send_from_directory('static', file)
 
 @app.route('/save/<int:model_id>', methods=['GET'])
 def save_model(model_id):

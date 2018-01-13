@@ -154,7 +154,7 @@ def train_model(model_id):
         abort(404)
     model=model[0]
     print("Input shape : ")
-    print(model.layers[0])
+    print(model.summary())
     y_initial=np.array(training_data.loc[:,len(training_data.columns)-1])
     y=[]
     outputs=model['model'].layers[-1].output_shape[1]

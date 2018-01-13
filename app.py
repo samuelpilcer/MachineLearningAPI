@@ -79,11 +79,11 @@ def get_models():
     if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
          abort(404)
     models_to_display=[]
-    if "accuracy" in i:
-        accuracy=i["accuracy"]
-    else:
-        accuracy=0
     for i in models:
+        if "accuracy" in i:
+            accuracy=i["accuracy"]
+        else:
+            accuracy=0
         models_to_display.append(
         {'id': i["id"],
         'model': i["model"].to_json(),
@@ -100,12 +100,17 @@ def get_model(model_id):
          abort(404)
 
     model = [model for model in models if model['id'] == model_id]
+    if "accuracy" in model[0]:
+        accuracy=model[0]["accuracy"]
+    else:
+        accuracy=0
     if len(model) == 0:
         return jsonify({'model': {'id_exists': False
                     }})
     return jsonify({'model': {'id_exists': True,'id': model[0]["id"],
                     'model': model[0]["model"].to_json(),
-                    'description': model[0]["description"], 
+                    'description': model[0]["description"],
+                    'accuracy':accuracy,
                     'trained': model[0]["trained"]
                     }})
 

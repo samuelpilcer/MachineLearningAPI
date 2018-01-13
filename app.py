@@ -120,7 +120,7 @@ def create_model():
     layers=request.json['layers']
     inputs=request.json['inputs']
     outputs=request.json['outputs']
-    model_keras.add(Dense(layers[0], input_dim=inputs, activation='relu'))
+    model_keras.add(Dense(layers[0]['number'], input_dim=inputs, activation=layers[0]['activation']))
     for i in layers:
         model_keras.add(Dense(i['number'], activation=i['activation']))
     model_keras.add(Dense(outputs, activation='sigmoid'))

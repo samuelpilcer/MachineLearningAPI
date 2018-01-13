@@ -148,6 +148,9 @@ def train_model(model_id):
     print("Training data loaded.")
     print("Shape : ")
     print(training_data.shape)
+    print("Epochs : ")
+    print(epochs)
+    print(type(epochs))
     training_data.columns=list(range(len(training_data.columns)))
     model=[model for model in models if model['id'] == model_id]
     if len(model) == 0:

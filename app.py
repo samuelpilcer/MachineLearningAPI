@@ -145,11 +145,16 @@ def train_model(model_id):
     else:
         epochs=1
     training_data=pd.read_csv("static/training/training_"+str(model_id)+".csv")
+    print("Training data loaded.")
+    print("Shape : ")
+    print(training_data.shape)
     training_data.columns=list(range(len(training_data.columns)))
     model=[model for model in models if model['id'] == model_id]
     if len(model) == 0:
         abort(404)
     model=model[0]
+    print("Input shape : ")
+    print(model.layers[0])
     y_initial=np.array(training_data.loc[:,len(training_data.columns)-1])
     y=[]
     outputs=model['model'].layers[-1].output_shape[1]

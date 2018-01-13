@@ -166,7 +166,7 @@ def train_model(model_id):
     columns=list(range(len(training_data.columns)-1))
     model['model'].fit(np.array(training_data.loc[:,columns]), y, epochs=epochs, batch_size=10)
     print("Metrics : ")
-    scores = model.evaluate(np.array(training_data.loc[:,columns]), y)
+    scores = model['model'].evaluate(np.array(training_data.loc[:,columns]), y)
     print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
     model['trained']=True
     return jsonify({'id':models[-1]['id']})

@@ -79,12 +79,17 @@ def get_models():
     if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
          abort(404)
     models_to_display=[]
+    if "accuracy" in i:
+        accuracy=i["accuracy"]
+    else:
+        accuracy=0
     for i in models:
         models_to_display.append(
         {'id': i["id"],
         'model': i["model"].to_json(),
         'description': i["description"], 
-        'trained': i["trained"]
+        'trained': i["trained"],
+        'accuracy': accuracy
         })
     return jsonify({'models': models_to_display})
 
@@ -165,11 +170,9 @@ def train_model(model_id):
     y=np.array(y)
     columns=list(range(len(training_data.columns)-1))
     model['model'].fit(np.array(training_data.loc[:,columns]), y, epochs=epochs, batch_size=10)
-    print("Metrics : ")
-    scores = model['model'].evaluate(np.array(training_data.loc[:,columns]), y)
-    print("\n%s: %.2f%%" % (model['model'].metrics_names[1], scores[1]*100))
+    model['accuracy']=scores[1]*100
     model['trained']=True
-    return jsonify({'id':models[-1]['id']})
+    return jsonify({'id':models[-1]['id'], 'accuracy':scores[1]*100})
 
 
 @app.route('/uploadtraining/<int:model_id>', methods=['POST'])

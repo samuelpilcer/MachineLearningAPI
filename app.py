@@ -134,7 +134,7 @@ def create_model():
     models.append(model)
     return jsonify({'id':models[-1]['id'],'layers': request.json['layers'],'description': request.json['description']})
 
-@app.route('/train/<int:model_id>', methods=['POST'])
+@app.route('/train/<int:model_id>', methods=['GET'])
 def train_model(model_id):
     if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
         print("No token specified.")

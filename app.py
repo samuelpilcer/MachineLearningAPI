@@ -140,7 +140,7 @@ def train_model(model_id):
         print("No token specified.")
         abort(404)
     if 'epochs' in request.json:
-        epochs=request.json['epochs']
+        epochs=int(request.json['epochs'])
     else:
         epochs=1
     print("Training file loading...")

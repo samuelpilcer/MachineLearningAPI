@@ -137,8 +137,10 @@ def create_model():
 @app.route('/train/<int:model_id>', methods=['POST'])
 def train_model(model_id):
     if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
-         abort(404)
+        print("No token specified.")
+        abort(404)
     if not request.json or not 'training_file' in request.json:
+        print("No training file specified.")
         abort(400)
     if 'epochs' in request.json:
         epochs=request.json['epochs']

@@ -93,6 +93,7 @@ def get_models():
 def get_model(model_id):
     if not request.headers or not 'token' in request.headers or not request.headers["token"]==PASSWORD_API:
          abort(404)
+
     model = [model for model in models if model['id'] == model_id]
     if len(model) == 0:
         abort(404)
@@ -120,7 +121,7 @@ def create_model():
     outputs=request.json['outputs']
     model_keras.add(Dense(layers[0], input_dim=inputs, activation='relu'))
     for i in layers:
-        model_keras.add(Dense(i, activation='relu'))
+        model_keras.add(Dense(i['number'], activation=i['activation']))
     model_keras.add(Dense(outputs, activation='sigmoid'))
     model_keras.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     model = {

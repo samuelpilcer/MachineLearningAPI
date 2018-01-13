@@ -4,3 +4,6 @@ curl -H "token:MY_TOKEN_AUTH" -i -H "Content-Type: application/json" -X POST -d 
 curl -H "token:MY_TOKEN_AUTH" http://dnsaddress/save/3
 curl -H "token:MY_TOKEN_AUTH" http://dnsaddress/download_str/3 -o Test.json
 curl -H "token:MY_TOKEN_AUTH" http://dnsaddress/download_weights/3 -o Test.h5
+curl -H "token:MY_TOKEN_AUTH" -X POST --form "file=@fileaddress.csv" http://dnsaddress/uploadfile/3
+curl -H "token:MY_TOKEN_AUTH" -X GET http://dnsaddress/process_file/3
+curl -H "token:MY_TOKEN_AUTH" -X GET http://dnsaddress/download_file_processed/3

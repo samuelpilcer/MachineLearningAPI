@@ -143,6 +143,7 @@ def train_model(model_id):
         epochs=request.json['epochs']
     else:
         epochs=1
+    print("Training file loading...")
     training_data=pd.read_csv("static/training/training_"+str(model_id)+".csv")
     print("Training data loaded.")
     print("Shape : ")

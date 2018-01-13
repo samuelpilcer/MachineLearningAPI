@@ -165,6 +165,8 @@ def train_model(model_id):
     y=np.array(y)
     columns=list(range(len(training_data.columns)-1))
     model['model'].fit(np.array(training_data.loc[:,columns]), y, epochs=epochs, batch_size=10)
+    print("Metrics : ")
+    print(model['model'].metrics)
     model['trained']=True
     return jsonify({'id':models[-1]['id']})
 

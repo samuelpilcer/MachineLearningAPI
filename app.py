@@ -96,8 +96,9 @@ def get_model(model_id):
 
     model = [model for model in models if model['id'] == model_id]
     if len(model) == 0:
-        abort(404)
-    return jsonify({'model': {'id': model[0]["id"],
+        return jsonify({'model': {'id_exists': False
+                    }})
+    return jsonify({'model': {'id_exists': True,'id': model[0]["id"],
                     'model': model[0]["model"].to_json(),
                     'description': model[0]["description"], 
                     'trained': model[0]["trained"]

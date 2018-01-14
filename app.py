@@ -218,6 +218,7 @@ def process_file(model_id):
     for i in range(file.index.size):
         res.append(list(file.iloc[i,:])+list(models[model_id-1]["model"].predict(np.array([file.iloc[i,:]]))[0]))
     pd.DataFrame(res).to_csv("static/processed/file_"+str(model_id)+".csv", index=False)
+    pd.DataFrame(res).to_excel("static/processed/file_"+str(model_id)+".xlsx", index=False)
     return "file successfully processed"
 
 @app.route('/download_file_processed/<int:model_id>', methods=['GET'])

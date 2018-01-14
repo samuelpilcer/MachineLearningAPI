@@ -221,7 +221,7 @@ def process_file(model_id):
     file=pd.read_csv("static/to_process/file_"+str(model_id)+".csv")
     res=[]
     for i in range(file.index.size):
-        print(models[model_id-1]["model"].predict(np.array([file.iloc[i,:]]))[0]))
+        print(models[model_id-1]["model"].predict(np.array([file.iloc[i,:]]))[0])
         res.append(list(file.iloc[i,:])+list(models[model_id-1]["model"].predict(np.array([file.iloc[i,:]]))[0]))
     pd.DataFrame(res).to_csv("static/processed/file_"+str(model_id)+".csv", index=False)
     pd.DataFrame(res).to_excel("static/processed/file_"+str(model_id)+".xlsx", index=False)

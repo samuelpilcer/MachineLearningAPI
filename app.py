@@ -128,6 +128,7 @@ def create_model():
         abort(400)
     model_keras = Sequential()
     layers=request.json['layers']
+    mode=request.json['mode']
     inputs=request.json['inputs']
     outputs=request.json['outputs']
     model_keras.add(Dense(layers[0]['number'], input_dim=inputs, activation=layers[0]['activation']))

@@ -170,8 +170,12 @@ def train_model(model_id):
     y_initial=np.array(training_data.loc[:,len(training_data.columns)-1])
     y=[]
     outputs=model['model'].layers[-1].output_shape[1]
-    for i in range(training_data.index.size):
-        y.append(to_vect(y_initial[i],outputs))
+    if outputs!=1:
+        for i in range(training_data.index.size):
+            y.append(to_vect(y_initial[i],outputs))
+    else:
+        for i in range(training_data.index.size):
+            y.append(y_initial[i])
     y=np.array(y)
     columns=list(range(len(training_data.columns)-1))
     model['model'].fit(np.array(training_data.loc[:,columns]), y, epochs=epochs, batch_size=10)

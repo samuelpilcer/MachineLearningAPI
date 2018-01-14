@@ -133,8 +133,13 @@ def create_model():
     model_keras.add(Dense(layers[0]['number'], input_dim=inputs, activation=layers[0]['activation']))
     for i in layers:
         model_keras.add(Dense(i['number'], activation=i['activation']))
-    model_keras.add(Dense(outputs, activation='sigmoid'))
-    model_keras.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    if mode=='regression':
+        model_keras.add(Dense(outputs))
+        model_keras.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
+    else:
+        model_keras.add(Dense(outputs, activation='sigmoid'))
+        model_keras.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    else:
     model = {
         'id': models[-1]['id'] + 1,
         'model': model_keras,

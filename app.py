@@ -139,7 +139,6 @@ def create_model():
     else:
         model_keras.add(Dense(outputs, activation='sigmoid'))
         model_keras.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-    else:
     model = {
         'id': models[-1]['id'] + 1,
         'model': model_keras,

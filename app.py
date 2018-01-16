@@ -183,8 +183,10 @@ def train_model(model_id):
             y.append(y_initial[i])
     y=np.array(y)
     columns=list(range(len(training_data.columns)-1))
-    model['model'].fit(np.array(training_data.loc[:,columns]), y, epochs=epochs, batch_size=10)
-    scores = model['model'].evaluate(np.array(training_data.loc[:,columns]), y)
+    x_train=np.array(training_data.loc[:,columns])
+    x_train = x_train.astype('float32') 
+    model['model'].fit(x_train, y, epochs=epochs, batch_size=10)
+    scores = model['model'].evaluate(x_train, y)
     model['accuracy']=scores[1]*100
     model['trained']=True
     return jsonify({'id':models[-1]['id'], 'accuracy':scores[1]*100})

@@ -224,7 +224,8 @@ def process_file(model_id):
     res=[]
     for i in range(file.index.size):
         print(models[model_id-1]["model"].predict(np.array([file.iloc[i,:]]))[0])
-        res.append(list(file.iloc[i,:])+list(models[model_id-1]["model"].predict(np.array([file.iloc[i,:]]))[0]))
+        probas=models[model_id-1]["model"].predict(np.array([file.iloc[i,:]]))[0]
+        res.append(list(file.iloc[i,:])+list(probas)+[np.argmax(probas)])
     pd.DataFrame(res).to_csv("static/processed/file_"+str(model_id)+".csv", index=False)
     pd.DataFrame(res).to_excel("static/processed/file_"+str(model_id)+".xlsx", index=False)
     return "file successfully processed"
